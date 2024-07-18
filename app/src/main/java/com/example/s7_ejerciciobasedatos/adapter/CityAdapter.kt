@@ -5,11 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.ImageButton
 import android.widget.TextView
 import com.example.s7_ejerciciobasedatos.R
 import com.example.s7_ejerciciobasedatos.entities.City
 
-class CityAdapter(private val context:Context, private var cityList: List<City>):BaseAdapter() {
+class CityAdapter(private val context:Context, private var cityList: List<City>,
+                  private val onEditClick:(City)-> Unit,
+                  private val onDeleteClick: (City)-> Unit):BaseAdapter() {
     override fun getCount(): Int {
         return cityList.size
     }
@@ -29,6 +32,13 @@ class CityAdapter(private val context:Context, private var cityList: List<City>)
         view.findViewById<TextView>(R.id.tvNameCity).text = city.name
         view.findViewById<TextView>(R.id.tvDescriptionCity).text = city.description
         view.findViewById<TextView>(R.id.tvPopulationCity).text = city.population.toString()
+        val btnEdit = view.findViewById<ImageButton>(R.id.BtnEditar)
+        val btnDelete = view.findViewById<ImageButton>(R.id.BtnEliminar)
+
+        btnDelete.setOnClickListener{onDeleteClick(city)}
+        btnEdit.setOnClickListener{onEditClick(city)}
+
+
         return  view
     }
 
